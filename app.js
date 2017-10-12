@@ -103,6 +103,7 @@ function receivedMessage(event) {
       case 'hi':
         {
           sendGenericMessage(senderID, queList['Q1']);
+          break;
         }
       default:
         {
