@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
 const flowTree = require('./parse-tree')
+const queList = require('./que')
 
 const getQueInfo = require('./utils').getQueInfo
 var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
@@ -20,20 +21,22 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Webhook validation
-app.get('/webhook', function(req, res) {
+app.get('/webhook', function (req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
-   req.query['hub.verify_token'] === 'sample_bot_token') {
+    req.query['hub.verify_token'] === 'sample_bot_token') {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
     console.error("Failed validation. Make sure the validation tokens match.");
-    res.sendStatus(403);          
+    res.sendStatus(403);
   }
 });
 
 // Display the web page
-app.get('/', function(req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
+app.get('/', function (req, res) {
+  res.writeHead(200, {
+    'Content-Type': 'text/html'
+  });
   res.write(messengerButton);
   res.end();
 });
@@ -45,18 +48,18 @@ app.post('/webhook', function (req, res) {
 
   // Make sure this is a page subscription
   if (data.object === 'page') {
-    
+
     // Iterate over each entry - there may be multiple if batched
-    data.entry.forEach(function(entry) {
+    data.entry.forEach(function (entry) {
       var pageID = entry.id;
       var timeOfEvent = entry.time;
 
       // Iterate over each messaging event
-      entry.messaging.forEach(function(event) {
+      entry.messaging.forEach(function (event) {
         if (event.message) {
           receivedMessage(event);
         } else if (event.postback) {
-          receivedPostback(event);   
+          receivedPostback(event);
         } else {
           console.log("Webhook received unknown event: ", event);
         }
@@ -79,7 +82,7 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:", 
+  console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
 
@@ -93,13 +96,23 @@ function receivedMessage(event) {
     // and send back the template example. Otherwise, just echo the text we received.
     switch (messageText) {
       case 'generic':
-        sendGenericMessage(senderID);
-        break;
-
-      default: {
-        var queInfo = getQueInfo(messageText, flowTree)
-        sendTextMessage(senderID, queInfo? queInfo.text : 'not found');
-      }
+        {
+          sendGenericMessage(senderID);
+          break;
+        }
+      case 'hi':
+        {
+          sendGenericMessage(senderID, queList['Q1']);
+        }
+      default:
+        {
+          var queInfo = getQueInfo(messageText, flowTree)
+          if (queInfo && queInfo.text == 'not found') {
+            sendTextMessage(senderID, "Sorry don't understand . type  hi to start");
+          } else {
+            sendGenericMessage(senderID, queInfo);
+          }
+        }
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -115,12 +128,18 @@ function receivedPostback(event) {
   // button for Structured Messages. 
   var payload = event.postback.payload;
 
-  console.log("Received postback for user %d and page %d with payload '%s' " + 
+  console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  var queInfo = getQueInfo(payload, flowTree)
+  if (queInfo && queInfo.text == 'not found') {
+    sendTextMessage(senderID, "Sorry don't understand . type  hi to start");
+  } else {
+    sendGenericMessage(senderID, queInfo);
+  }
+  //sendTextMessage(senderID, "Postback called");
 }
 
 //////////////////////////
@@ -139,7 +158,7 @@ function sendTextMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
-function sendGenericMessage(recipientId) {
+function sendGenericMessage(recipientId, queInfo) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -150,38 +169,24 @@ function sendGenericMessage(recipientId) {
         payload: {
           template_type: "generic",
           elements: [{
-            title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
-          }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
+            title: queInfo.text,
+            subtitle: "Select an option below",
+            item_url: "",
+            image_url: "",
+            buttons: [],
           }]
         }
       }
     }
-  };  
+  };
+
+  for (var i = 0; i < queInfo.options.length; i++) {
+    messageData.message.attachment.payload.elements[0].buttons.push({
+      type: 'postback',
+      title: queInfo.options[i].text,
+      payload: queInfo.options[i].key
+    })
+  }
 
   callSendAPI(messageData);
 }
@@ -189,7 +194,9 @@ function sendGenericMessage(recipientId) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAN3s3DTH3sBALO66QmZC5ZBWi84dlacSIswselak01NC4fB9WZB8L4tfCjH455QqabDqsjzzldqgEj5Lq0GjOpyMnICCOUHm0lLwF49f6u3iiltvyVSo1oHZAEUGo1Cofza9Xvtr9bCVCiHR31ZAV9n6Y6gBn2Mwg6y7LzbYgAZDZD' },
+    qs: {
+      access_token: 'EAAN3s3DTH3sBALO66QmZC5ZBWi84dlacSIswselak01NC4fB9WZB8L4tfCjH455QqabDqsjzzldqgEj5Lq0GjOpyMnICCOUHm0lLwF49f6u3iiltvyVSo1oHZAEUGo1Cofza9Xvtr9bCVCiHR31ZAV9n6Y6gBn2Mwg6y7LzbYgAZDZD'
+    },
     method: 'POST',
     json: messageData
 
@@ -198,14 +205,14 @@ function callSendAPI(messageData) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s", 
+      console.log("Successfully sent generic message with id %s to recipient %s",
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
       console.error(response);
       console.error(error);
     }
-  });  
+  });
 }
 
 // Set Express to listen out for HTTP requests
