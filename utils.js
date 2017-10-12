@@ -26,7 +26,7 @@ exports.getQueInfo = function (key, flowTree) {
   } else {
     var child = childObj.children
     if (child && child[0] && child[0].data) {
-      const qid = child[0].data.label
+      const qid = child[0].data.label.replace('\r','');
       console.log(que[qid])
       return que[qid]
     } else {
