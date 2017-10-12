@@ -98,7 +98,7 @@ function receivedMessage(event) {
 
       default: {
         var queInfo = getQueInfo(messageText, flowTree)
-        sendTextMessage(senderID, queInfo.text);
+        sendTextMessage(senderID, queInfo? queInfo.text : 'not found');
       }
     }
   } else if (messageAttachments) {
