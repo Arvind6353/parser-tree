@@ -22,7 +22,7 @@ exports.getQueInfo = function (key, flowTree) {
     return key === node.data.label
   })
   if (!childObj) {
-    return 'not found'
+    return {text: 'not found' }
   } else {
     var child = childObj.children
     if (child && child[0] && child[0].data) {
@@ -30,7 +30,7 @@ exports.getQueInfo = function (key, flowTree) {
       console.log(que[qid])
       return que[qid]
     } else {
-      return 'not found'
+      return {text: 'not found' }
     }
   }
 }
