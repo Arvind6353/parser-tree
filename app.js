@@ -171,7 +171,7 @@ function sendMetadataMessage(recipientId, messageText) {
       id: recipientId
     },
     message: {
-      metadata: messageText
+      text: messageText
     }
   };
 
@@ -229,7 +229,7 @@ function callSendAPI(messageData) {
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
-      console.error(response);
+   //   console.error(response);
       console.error(error);
     }
   });

@@ -27,7 +27,7 @@ for (i in flowData) {
 
 // examples
 //flowTree.traverseDown(iterator)
-getQueInfo('A1.1', flowTree)
+getQueInfo('A4.2', flowTree)
 
 module.exports = flowTree
 })()  
