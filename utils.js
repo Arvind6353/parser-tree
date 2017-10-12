@@ -18,14 +18,19 @@ exports.getNextQueOrder = function getNextQueOrder(key, flowTree) {
 
 
 exports.getQueInfo = function (key, flowTree) {
-  const child = flowTree.find(function (node) {
+  const childObj = flowTree.find(function (node) {
     return key === node.data.label
-  }).children
-  if (child && child[0] && child[0].data) {
-    const qid = child[0].data.label
-    console.log(que[qid])
-    return que[qid]
-  } else {
+  })
+  if (!childObj) {
     return 'not found'
+  } else {
+    var child = childObj.children
+    if (child && child[0] && child[0].data) {
+      const qid = child[0].data.label
+      console.log(que[qid])
+      return que[qid]
+    } else {
+      return 'not found'
+    }
   }
 }
