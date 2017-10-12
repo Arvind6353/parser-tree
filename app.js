@@ -119,7 +119,7 @@ function receivedMessage(event) {
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
-
+// handling option click
 function receivedPostback(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -135,10 +135,16 @@ function receivedPostback(event) {
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   var queInfo = getQueInfo(payload, flowTree)
+  // for text inputs
   if (queInfo && queInfo.text == 'not found') {
     sendTextMessage(senderID, "Sorry don't understand . type  hi to start");
   } else {
-    sendGenericMessage(senderID, queInfo);
+    // final step
+    if (queInfo && queInfo.type == 'End') {
+      sendMetadataMessage(senderID, queInfo.text)
+    } else { // showing next que
+      sendGenericMessage(senderID, queInfo);
+    }
   }
   //sendTextMessage(senderID, "Postback called");
 }
@@ -153,6 +159,19 @@ function sendTextMessage(recipientId, messageText) {
     },
     message: {
       text: messageText
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+function sendMetadataMessage(recipientId, messageText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      metadata: messageText
     }
   };
 

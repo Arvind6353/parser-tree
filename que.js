@@ -66,5 +66,21 @@ module.exports = {
                 "text": "answer3 for q4"
             }
         ]
+    },
+    "E1": {
+        "text": `Follow this link to find the necessary docs1
+        http://www.google.com`,
+        "type": 'End',
+    },
+    "E2": {
+        "text": `Follow this link to find the necessary docs2
+        http://www.yahoo.com`,
+        "type": 'End',
+    },
+    "E3": {
+        "text": `Follow this link to find the necessary docs3
+        http://www.cricinfo.com`,
+        "type": 'End',
     }
+
 }
