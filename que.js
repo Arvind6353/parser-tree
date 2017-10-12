@@ -49,5 +49,22 @@ module.exports = {
                 "text": "answer3 for q3"
             }
         ]
+    },
+
+    "Q4": {
+        "text": "Question 4",
+        "options": [{
+                "key": "A4.1",
+                "text": "answer1 for q4"
+            },
+            {
+                "key": "A4.2",
+                "text": "answer2 for q4"
+            },
+            {
+                "key": "A4.3",
+                "text": "answer3 for q4"
+            }
+        ]
     }
 }

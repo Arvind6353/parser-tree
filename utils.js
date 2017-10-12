@@ -1,25 +1,25 @@
+const que = require('./que')
 
-var Tree = function(value) {
-  var newTree = {};
-  newTree.value = value;
-  newTree.children = [];
-  _.extend(newTree, treeMethods);
-  return newTree;
-};
+// callback called on each node traversal
+exports.iterator = function iterator(node) {
+  var depth = "",
+      i;
+  for (i = 1; i <= node.depth; i++) depth += ">";
+  console.log([depth, node.data.label].join(" "));
+}
 
-var treeMethods = {};
 
-treeMethods.addChild = function(value) {
-  this.children.push(Tree(value));
-};
+// assuming keys are unique . need to find the child of the key - the next que to be asked
+exports.getNextQueOrder = function getNextQueOrder(key, flowTree) {
+  return flowTree.find(function (node) {
+      return key === node.data.label
+  }).children[0].data.label
+}
 
-treeMethods.contains = function(target, root) {
-  root = root || this;
-  if (root.value === target) return true; // base-case
-  
-  for (var i = 0; i < root.children.length; i++) {
-    if (this.contains(target, root.children[i])) return true;
-  }
-  
-  return false;
-};
+
+exports.getQueInfo = function(qid){
+
+  console.log(que[qid])
+
+}
+
