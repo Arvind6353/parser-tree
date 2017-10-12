@@ -17,9 +17,11 @@ exports.getNextQueOrder = function getNextQueOrder(key, flowTree) {
 }
 
 
-exports.getQueInfo = function(qid){
-
-  console.log(que[qid])
-
+exports.getQueInfo = function(key, flowTree){
+  const qid = flowTree.find(function (node) {
+    return key === node.data.label
+ }).children[0].data.label
+ console.log(que[qid])
+  return que[qid]
 }
 

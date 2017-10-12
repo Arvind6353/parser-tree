@@ -6,6 +6,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
+const flowTree = require('./parse-tree')
+
+const getQueInfo = require('./utils').getQueInfo
 var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
 
 // The rest of the code implements the routes for our Express server.
@@ -93,8 +96,10 @@ function receivedMessage(event) {
         sendGenericMessage(senderID);
         break;
 
-      default:
-        sendTextMessage(senderID, messageText);
+      default: {
+        var queInfo = getQueInfo(messageText, flowTree)
+        sendTextMessage(senderID, queInfo.text);
+      }
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
