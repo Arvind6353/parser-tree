@@ -20,9 +20,9 @@ exports.getNextQueOrder = function getNextQueOrder(key, flowTree) {
 exports.getQueInfo = function (key, flowTree) {
   const child = flowTree.find(function (node) {
     return key === node.data.label
-  }).children[0]
-  if (child && child.data) {
-    const qid = child.data.label
+  }).children
+  if (child[0] && child[0].data) {
+    const qid = child[0].data.label
     console.log(que[qid])
     return que[qid]
   } else {
