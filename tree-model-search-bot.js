@@ -54,6 +54,7 @@ app.post('/webhook', function (req, res) {
       var pageID = entry.id;
       var timeOfEvent = entry.time;
 
+      if(entry && entry.messaging) {
       // Iterate over each messaging event
       entry.messaging.forEach(function (event) {
         if (event.message) {
@@ -64,8 +65,9 @@ app.post('/webhook', function (req, res) {
           console.log("Webhook received unknown event: ", event);
         }
       });
+    }
     });
-
+  
     // Assume all went well.
     //
     // You must send back a 200, within 20 seconds, to let us know
@@ -91,11 +93,10 @@ function receivedMessage(event) {
   var messageText = message.text;
   var messageAttachments = message.attachments;
 
-  console.log('message text ---',messageText)
-
   if (messageText) {
     // If we receive a text message, check to see if it matches a keyword
     // and send back the template example. Otherwise, just echo the text we received.
+    console.log('message text ----', messageText)
     switch (messageText) {
       case 'generic':
         {

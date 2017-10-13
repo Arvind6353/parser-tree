@@ -129,6 +129,10 @@ module.exports = {
     "E4": {
         "text": `Follow this link to find the necessary docs4 http://www.cricinfo.com`,
         "type": 'End',
+    },
+    "E7": {
+        "text": `Follow this link to find the necessary docs7 http://www.cricinfo.com`,
+        "type": 'End',
     }
 
 }
