@@ -1,0 +1,74 @@
+<script src='./treeMap.js'>
+</script>
+<script>
+    var tree = new TreeModel();
+
+    var root = tree.parse({
+        label: 'Q1'
+    })
+
+    constructTree(['Q1', 'A1.1', 'Q2', 'A2.2','Q4','A4.1', 'E1'], 0);
+    constructTree(['Q1', 'A1.2', 'Q3', 'A3.2','Q5','A4.2', 'E2'], 1);
+    constructTree(['Q1', 'A1.3','Q6','A2.1' ,'E3'], 2);
+    constructTree(['Q1', 'A1.2', 'Q3', 'A3.3','Q7','A7.1', 'E4'], 3);
+    
+
+
+    
+    getQueInfo('A7.1',root)
+    var path ='' ;
+    root.walk(function (node) {
+    // Halt the traversal by returning false
+        path +=  node.model.label + ' ---> '
+    });
+    
+    function constructTree(arr) {
+
+        for (var i = 1; i < arr.length; i++) {
+
+            var abc;
+            root.walk(function (node) {
+                // Halt the traversal by returning false
+                if (node.model.label === arr[i - 1]) {
+                    abc = node;
+                    return false;
+                }
+            });
+
+            if (!abc) {
+                root.addChild(
+                    tree.parse({
+                        label: arr[i]
+                    })
+                )
+            } else {
+                abc.addChild(
+                    tree.parse({
+                        label: arr[i]
+                    })
+                )
+            }
+        }
+    }
+
+
+    function findChildNodeLabel(key, root) {
+        var parentNode = root.first(function (node) {
+            return node.model.label === key;
+        });
+        console.log(parentNode)
+        if (parentNode.children && parentNode.children[0] && parentNode.children[0].model.label) {
+            return parentNode.children[0].model.label
+        } else {
+            return 'not found'
+        }
+    }
+
+
+    function getQueInfo(key, root) {
+
+        var nodeLabel = findChildNodeLabel(key, root)
+       console.log(nodeLabel)
+
+    }
+</script>

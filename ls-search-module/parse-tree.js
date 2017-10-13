@@ -8,7 +8,7 @@ const getNextQueOrder = require('./utils').getNextQueOrder
 var flowTree;
 
 // read the flow input 
-// fs.readFile('./flow.txt', 'utf8', function (err, data) {
+// fs.readFile('../flow.txt', 'utf8', function (err, data) {
 //     if (err) throw (err)
 //     var flowData = data.toString().split("\n");
 //     for (i in flowData) {

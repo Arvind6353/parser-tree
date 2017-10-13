@@ -66,6 +66,54 @@ module.exports = {
             }
         ]
     },
+    "Q5": {
+        "text": "Question 5",
+        "options": [{
+                "key": "A5.1",
+                "text": "answer1 for q5"
+            },
+            {
+                "key": "A5.2",
+                "text": "answer2 for q5"
+            },
+            {
+                "key": "A5.3",
+                "text": "answer3 for q5"
+            }
+        ]
+    },
+    "Q6": {
+        "text": "Question 6",
+        "options": [{
+                "key": "A6.1",
+                "text": "answer1 for q6"
+            },
+            {
+                "key": "A6.2",
+                "text": "answer2 for q6"
+            },
+            {
+                "key": "A6.3",
+                "text": "answer3 for q6"
+            }
+        ]
+    },
+    "Q7": {
+        "text": "Question 7",
+        "options": [{
+                "key": "A7.1",
+                "text": "answer1 for q7"
+            },
+            {
+                "key": "A7.2",
+                "text": "answer2 for q7"
+            },
+            {
+                "key": "A7.3",
+                "text": "answer3 for q7"
+            }
+        ]
+    },
     "E1": {
         "text": `Follow this link to find the necessary docs1 http://www.google.com`,
         "type": 'End',
@@ -76,6 +124,10 @@ module.exports = {
     },
     "E3": {
         "text": `Follow this link to find the necessary docs3 http://www.cricinfo.com`,
+        "type": 'End',
+    },
+    "E4": {
+        "text": `Follow this link to find the necessary docs4 http://www.cricinfo.com`,
         "type": 'End',
     }
 

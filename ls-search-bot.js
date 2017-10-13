@@ -1,15 +1,17 @@
 //
 // This is main file containing code implementing the Express server and functionality for the Express echo bot.
 //
-'use strict';
+
+// search is done using ls . each path is created as a separate branch.
+
+//ls-search.js maps to app.js inside ls-search-module
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
-const flowTree = require('./parse-tree')
+const flowTree = require('./ls-search-module/parse-tree')
 const queList = require('./que')
-
-const getQueInfo = require('./utils').getQueInfo
+const getQueInfo = require('./ls-search-module/utils').getQueInfo
 var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
 
 // The rest of the code implements the routes for our Express server.
@@ -19,6 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use(express.static(path.join(__dirname)))
 
 // Webhook validation
 app.get('/webhook', function (req, res) {

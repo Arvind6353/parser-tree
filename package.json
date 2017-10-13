@@ -6,12 +6,14 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "tree-model": "^1.0.6",
+    "treemap-js": "^1.1.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node tree-model-search-bot.js"
   },
   "author": "",
   "license": "ISC"

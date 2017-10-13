@@ -1,4 +1,4 @@
-const que = require('./que')
+const que = require('../que')
 
 // callback called on each node traversal
 exports.iterator = function iterator(node) {
