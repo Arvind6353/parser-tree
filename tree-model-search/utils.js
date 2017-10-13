@@ -6,7 +6,9 @@ function findChildNodeLabel(key, root) {
         return node.model.label === key;
     });
 
-  
+    if(!parentNode) {
+        return 'not found'
+    }
     if(parentNode.children && parentNode.children[0] && parentNode.children[0].model.label) {
         return parentNode.children[0].model.label
     }

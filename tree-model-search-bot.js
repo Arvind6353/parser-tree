@@ -44,7 +44,6 @@ app.get('/', function (req, res) {
 
 // Message processing
 app.post('/webhook', function (req, res) {
-  console.log(req.body);
   var data = req.body;
 
   // Make sure this is a page subscription
@@ -83,14 +82,16 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
+  //console.log("Received message for user %d and page %d at %d with message:",
+   // senderID, recipientID, timeOfMessage);
+  //console.log(JSON.stringify(message));
 
   var messageId = message.mid;
 
   var messageText = message.text;
   var messageAttachments = message.attachments;
+
+  console.log('message text ---',messageText)
 
   if (messageText) {
     // If we receive a text message, check to see if it matches a keyword
@@ -130,8 +131,8 @@ function receivedPostback(event) {
   // button for Structured Messages. 
   var payload = event.postback.payload;
 
-  console.log("Received postback for user %d and page %d with payload '%s' " +
-    "at %d", senderID, recipientID, payload, timeOfPostback);
+  //console.log("Received postback for user %d and page %d with payload '%s' " +
+   // "at %d", senderID, recipientID, payload, timeOfPostback);
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
@@ -212,8 +213,8 @@ function callSendAPI(messageData) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s",
-        messageId, recipientId);
+      //console.log("Successfully sent generic message with id %s to recipient %s",
+       // messageId, recipientId);
     } else {
       console.error("Unable to send message.");
    //   console.error(response);
