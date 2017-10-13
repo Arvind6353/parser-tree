@@ -117,7 +117,7 @@ function receivedMessage(event) {
         {
           var queInfo = getQueInfo(messageText, flowTree)
           if (queInfo && queInfo.text == 'not found') {
-            sendTextMessage(senderID, "Sorry don't understand . type  hi to start");
+            sendTextMessage(senderID, "Sorry I don't understand . type  hi to start");
           } else {
             sendGenericMessage(senderID, queInfo);
           }
@@ -145,7 +145,7 @@ function receivedPostback(event) {
   var queInfo = getQueInfo(payload, flowTree)
   // for text inputs
   if (queInfo && queInfo.text == 'not found') {
-    sendTextMessage(senderID, "Sorry don't understand . type  hi to start");
+    sendTextMessage(senderID, "Sorry I don't understand . type  hi to start");
   } else {
     // final step
     if (queInfo && queInfo.type == 'End') {
