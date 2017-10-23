@@ -9,7 +9,7 @@
         label: 'Q1'
     })
 
-    var data = fs.readFileSync('./flow.txt', 'utf8')
+    var data = fs.readFileSync('../flow.txt', 'utf8')
     var flowData = data.toString().split("\n");
     for (i in flowData) {
         var dataInEachLine = flowData[i].split('->');
@@ -45,7 +45,7 @@
         }
     }
 
-    getQueInfo('A4.1', root)
+    getQueInfo('A4.1', root)    
     exports.tree = tree
     exports.root = root
 })()
