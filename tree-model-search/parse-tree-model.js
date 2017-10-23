@@ -2,14 +2,14 @@
     const fs = require('fs')
     const TreeModel = require('tree-model');
     const getQueInfo = require('./utils').getQueInfo
-
+    const path = require('path')
     var tree = new TreeModel();
 
-    var root = tree.parse({
+    var root = tree.parse({ 
         label: 'Q1'
     })
 
-    var data = fs.readFileSync('../flow.txt', 'utf8')
+    var data = fs.readFileSync(path.join(__dirname,'..','flow.txt'), 'utf8')
     var flowData = data.toString().split("\n");
     for (i in flowData) {
         var dataInEachLine = flowData[i].split('->');

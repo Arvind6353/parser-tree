@@ -7,15 +7,13 @@
         label: 'Q1'
     })
 
-    constructTree(['Q1', 'A1.1', 'Q2', 'A2.2','Q4','A4.1', 'E1'], 0);
-    constructTree(['Q1', 'A1.2', 'Q3', 'A3.2','Q5','A4.2', 'E2'], 1);
-    constructTree(['Q1', 'A1.3','Q6','A2.1' ,'E3'], 2);
-    constructTree(['Q1', 'A1.2', 'Q3', 'A3.3','Q7','A7.1', 'E4'], 3);
-    
+    constructTree(['Q1', 'A1.1', 'Q2', 'A2.1','E1'], 0);
+    constructTree(['Q1', 'A1.2', 'Q2', 'A2.2', 'E2'], 1);
+    constructTree(['Q1', 'A1.3','Q3','A3.3' ,'E3'], 2);
 
 
     
-    getQueInfo('A7.1',root)
+    getQueInfo('A2.1',root)
     var path ='' ;
     root.walk(function (node) {
     // Halt the traversal by returning false

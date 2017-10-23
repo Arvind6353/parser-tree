@@ -4,6 +4,7 @@ const iterator = require('./utils').iterator
 const getQueInfo = require('./utils').getQueInfo
 const constructTree = require('./construct-tree').constructTree
 const getNextQueOrder = require('./utils').getNextQueOrder
+const path = require('path')
 
 var flowTree;
 
@@ -18,7 +19,7 @@ var flowTree;
 // })
 
 
-var data = fs.readFileSync('../flow.txt', 'utf8')
+var data = fs.readFileSync(path.join(__dirname,'..','flow.txt'), 'utf8')
 var flowData = data.toString().split("\n");
 for (i in flowData) {
     var dataInEachLine = flowData[i].split('->');
